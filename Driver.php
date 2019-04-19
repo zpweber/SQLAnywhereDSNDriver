@@ -6,6 +6,11 @@ use Doctrine\DBAL\Driver\SQLAnywhere\SQLAnywhereConnection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\SQLAnywhere\SQLAnywhereException;
 
+/**
+ * Custom Doctrine driver to allow connection to SQLAnywhere server through DSN(odbc).
+ * This class is an exact duplicate of the SQLAnywhere Driver with the exception of some
+ * very minor changes to the Driver::buildDsn method.
+ */
 class Driver extends AbstractSQLAnywhereDriver{
     /**
      * {@inheritdoc}
@@ -59,7 +64,7 @@ class Driver extends AbstractSQLAnywhereDriver{
      */
     private function buildDsn($host, $port, $server, $dsn, $dbname, $username = null, $password = null, array $driverOptions = [])
     {
-        /* If DSN is set, disregard host/port */
+        /* If DSN is set, disregard host/port and set "host" to DSN */
         if(! empty($dsn) ){
             $host = 'DSN=' . $dsn;
         }else{
